@@ -1,5 +1,5 @@
 [package]
-name = "library-app"
+name = "arbitra"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,3 +7,9 @@ edition = "2021"
 
 [dependencies]
 yew = "0.18"
+yew-router = "0.15.0"
+anyhow = "1.0.42"
+serde = { version = "1.0", features = ["derive"]}
+yewdux = "^0.6"
+serde_json = "1.0.93"
+http = "0.2.1"
