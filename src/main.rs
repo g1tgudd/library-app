@@ -42,17 +42,12 @@ impl Component for Model {
 
     fn view(&self) -> Html {
         html! {
-            <div>
+            <div class="container">
 
-                <div class="header">
-                    <h1 class="title">{"Library App"}</h1>
+                // Top Navigation Bar
+                <div class="navigation-bar">
+                    <h1 class="title">{"Library Management System"}</h1>
                 </div>
-
-                <div class="sidenav">
-                    <a href="#">{"Overview"}</a>
-                    <a href="#">{"Dashboard"}</a>
-                </div>
-
             </div>
         }
     }
