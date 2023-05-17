@@ -206,7 +206,7 @@ impl Component for IndexPageComp {
             record_data: serde_json::json!({"data": []}),
             error: None,
 
-            index_name: String::from("SELECT INDEX ..."),
+            index_name: String::from("SELECT GENRE ..."),
             index_data: Some(vec![]),
 
             app_id: String::from(""),
@@ -388,7 +388,7 @@ impl Component for IndexPageComp {
                 // ConsoleService::info(&format!("data is {:?}", data));
 
                 {
-                    if self.index_name != String::from("SELECT INDEX ...") {
+                    if self.index_name != String::from("SELECT GENRE ...") {
                         if let Some(data_vec) = &data {
                             let found_index_name = data_vec.iter().find(
                                 |index_find| index_find.index.clone().split('.').next_back().unwrap().to_string() == self.index_name
@@ -400,7 +400,7 @@ impl Component for IndexPageComp {
                                 },
                                 None => {
                                     // ConsoleService::info(&format!("index Name not found!"));
-                                    self.index_name = String::from("SELECT INDEX ...");
+                                    self.index_name = String::from("SELECT GENRE ...");
                                 }
                             }
                         }
@@ -471,7 +471,7 @@ impl Component for IndexPageComp {
 
             Msg::SelectApp(app, name) => {
                 // ConsoleService::info(&format!("Selected index: {:?}", index));
-                self.index_name = String::from("SELECT INDEX ...");
+                self.index_name = String::from("SELECT GENRE ...");
                 self.total_page = 0;
                 self.record_data = serde_json::json!({"data": []});
                 self.app_name = name;
@@ -673,72 +673,51 @@ impl Component for IndexPageComp {
         let index_name_view2 = self.index_name.clone();
             html! {
                 <div> 
-                        <div>
-                            <div class="leftbox index-sidebar-small">
-                                <img class="index-logo" src="images/Arbitra_LogoOnly2.png"/> 
-                            
-                                <label for="sidebar-check" class="sidebar-toggle-label">
-                                    <img class="index-logo" id="sidebar-toggle-img" src="images/menu-burger.png"/>
-                                </label>
-                            </div>
+                    <div>
+                        <div class="rightSideBar">
+                            <p style="color: #bd3143; font-size: 2rem">{"Library Management Application"}</p>
 
-                            <input type="checkbox" id="sidebar-check"
-                                onchange=self.link.callback(|_| Msg::ToggleSidebar)
-                            />
-
-                            {
-                                if self.toggle_sidebar {
-                                    html!{
-                                        <div class="rightSideBar">
-                                            <p style="color: #bd3143; font-size: 2rem">{"S E A R C H"}</p>
-                                            <p style="margin-top: -8px">{ "Application" }</p>
-            
-                                            <div class="dropdown">
-                                                {
-                                                    if self.app_name == "UNSELECTED"{
-                                                        html!{
-                                                            <button class="mainmenubtn-warn"><img class="applicationIcon" src="images/APP_WARN.png"/>{ format!("{} \u{00a0} \u{23F7}", &self.app_name)}</button>
-                                                        }
-                                                    } else{
-                                                        html!{
-                                                            <button class="mainmenubtn"><img class="applicationIcon" src="images/APP.png"/>{ format!("{} \u{00a0} \u{23F7}", &self.app_name)}</button>
-                                                    }
-                                                    }
-                                                }
-                                                <div class="dropdown-child">
-            
-                                                    { self.view_app_data() }
-                                                    <a 
-                                                        href="#" 
-                                                        onclick=self.link.callback(|_| Msg::ToggleCreateApp)
-                                                        style="background-color: #e3e8ed"
-                                                        >
-                                                        { "Create New Application" }
-                                                    </a>
-            
-                                                    <a 
-                                                        href="#" 
-                                                        onclick=self.link.callback(|_| Msg::ToggleDeleteApp)
-                                                        style="color: white; background-color: #a73034"
-                                                        >
-                                                        { "Remove Application" }
-                                                    </a>
-                                                </div>
+                            <div class="dropdown">
+                                {
+                                    if self.app_name == "UNSELECTED"{
+                                        html!{
+                                            <div>
+                                                <p style="margin-left: 5px; margin-bottom: -4px; color: #c4c4c4">{ "User Profile:" }</p>
+                                                <button class="mainmenubtn-warn">{ format!("{} \u{00a0} \u{23F7}", &self.app_name)}</button>
                                             </div>
-                                            
-                                            <br/><br/>
-            
-                                            <p class="index-directry">{ "\u{007C}\u{00a0} Index" }</p>
-                                            <p class="index-directry">{ "\u{007C}\u{00a0} Dictionary" }</p>
-                                        </div>
+                                        }
+                                    } else{
+                                        html!{
+                                            <div>
+                                                <p style="margin-left: 5px; margin-bottom: -4px; color: #c4c4c4">{ "User Profile:" }</p>
+                                                <button class="mainmenubtn">{ format!("{} \u{00a0} \u{23F7}", &self.app_name)}</button>
+                                            </div>
                                     }
-                                        
-                                } else {
-                                    html!{}
+                                    }
                                 }
-                            }
-                            
+                                <div class="dropdown-child">
+
+                                    { self.view_app_data() }
+                                    <a 
+                                        href="#" 
+                                        onclick=self.link.callback(|_| Msg::ToggleCreateApp)
+                                        style="background-color: #e3e8ed"
+                                        >
+                                        { "Create New Application" }
+                                    </a>
+
+                                    <a 
+                                        href="#" 
+                                        onclick=self.link.callback(|_| Msg::ToggleDeleteApp)
+                                        style="color: white; background-color: #a73034"
+                                        >
+                                        { "Remove Application" }
+                                    </a>
+                                </div>
+                            </div>
                         </div>
+                        
+                    </div>
 
                         <div>
                             <div class="top-index-dashboard">
@@ -748,7 +727,7 @@ impl Component for IndexPageComp {
                                         if self.app_name == "UNSELECTED" {
                                             html!{
                                                 <div class="dropdownIndex">
-                                                    <button class="mainmenubtnIndex-warn">{"NO APPLICATION SELECTED"}</button>
+                                                    <button class="mainmenubtnIndex-warn">{"NO USER PROFILE SELECTED"}</button>
                                                 </div>
                                             }
 
@@ -795,7 +774,7 @@ impl Component for IndexPageComp {
                                     }      
                                 
                                     {
-                                        if self.index_name == "SELECT INDEX ..." {
+                                        if self.index_name == "SELECT GENRE ..." {
                                             html!{}
                                         } else {
                                             html!{
@@ -812,11 +791,11 @@ impl Component for IndexPageComp {
                                 <br/><br/><br/>
 
                                 {
-                                        if &self.index_name == "SELECT INDEX ..." {
+                                        if &self.index_name == "SELECT GENRE ..." {
                                         html!{<p style="margin-bottom: -50px">{ "" }</p>}
                                     } else {
                                         html!{
-                                            <div style="margin-bottom: -25px">
+                                            <div style="margin-bottom: -15px">
                                                 <div class="dropdownRecord">
                                                 <button class="mainmenubtnRecord">{ "New Record \u{00a0} \u{00a0} \u{00a0} \u{00a0} \u{23F7}"}</button>
                                                 <div class="dropdown-childRecord">
@@ -875,26 +854,17 @@ impl Component for IndexPageComp {
                         </div>
 
                         <div class="bottom-index-dashboard">
-                            <div class="flex-container">
-                                <button class="subtab-p">{ "Browse" }</button>
-                                <button class="subtab-p">{ "Configuration" }</button>
-                                <button class="subtab-p">{ "Replicas" }</button>
-                                <button class="subtab-p">{ "Search API Records" }</button>
-                                <button class="subtab-p">{ "Stats" }</button>
-                                <button class="subtab-p">{ "UI Demos" }</button>
-                            </div>
-                            
                                 <div class="search-bar">
                                     <div class="search">
 
                                         {
-                                            if self.index_name == "SELECT INDEX ..." {
+                                            if self.index_name == "SELECT GENRE ..." {
                                                 html!{
                                                     <input
                                                         class= "search-input"
                                                         disabled = true
                                                         type="text"
-                                                        placeholder="Please Select An Application & Index first!"
+                                                        placeholder="Please Select User Profile first!"
                                                         oninput = self.link.callback(|data: InputData| Msg::InputSearch(data.value))
                                                     />
                                                 }
@@ -914,7 +884,7 @@ impl Component for IndexPageComp {
                                         
                                         // <div >
                                             {
-                                                if self.index_name == "SELECT INDEX ..." {
+                                                if self.index_name == "SELECT GENRE ..." {
                                                     html!{
                                                         <div class= "search-statistics-disabled"></div>
                                                     }
@@ -1065,7 +1035,7 @@ impl Component for IndexPageComp {
                                     {
                                         if  self.view_data().is_empty() && 
                                             self.app_name != "UNSELECTED" && 
-                                            self.index_name != "SELECT INDEX ..." &&
+                                            self.index_name != "SELECT GENRE ..." &&
                                             !self.loading_record 
                                                 {
                                                     html!{
@@ -1073,13 +1043,13 @@ impl Component for IndexPageComp {
                                                             {"NO RECORD!"}
                                                         </button> 
                                                     }
-                                        } else if   self.index_name == "SELECT INDEX ..." && 
+                                        } else if   self.index_name == "SELECT GENRE ..." && 
                                                     self.app_name != "UNSELECTED" && 
                                                     !self.loading_record 
                                                         {
                                                             html!{
                                                                 <button disabled=true class="window-delete-warning-main" >
-                                                                    {"SELECT INDEX!"}
+                                                                    {"SELECT GENRE!"}
                                                                 </button> 
                                                             }
                                         } else if   self.app_name == "UNSELECTED" && 

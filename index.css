@@ -445,9 +445,10 @@ input[type=password]:focus {
     position: sticky;
     float:left;
     padding-left: 0.6%;
-    width: 15%;
+    width: 13%;
     padding-top: 1%;
     height: 100vh;
+    background-color: #242424;
 
 }
 
@@ -463,7 +464,7 @@ input[type=password]:focus {
 }
 
 .mainmenubtn-warn {
-    background-color: white;
+    background-color: #242424;
     color: #a73034;
     border: none;
     font-family: Alexandria;
@@ -472,8 +473,8 @@ input[type=password]:focus {
  }
 
 .mainmenubtn {
-    background-color: white;
-    color: #606465;
+    background-color: #242424;
+    color: #c4c4c4;
     border: none;
     font-family: Alexandria;
     padding-top: 10px;
@@ -532,6 +533,7 @@ input[type=password]:focus {
 .top-index-dashboard {
     padding-top: 0.8%;
     width: 100%;
+    margin-left: 15%;
 }
 
 /*DROPDOWN INDEX NAME */
@@ -541,12 +543,12 @@ input[type=password]:focus {
     border: solid 2px #606465;
     border-radius: 5px;
     font-family: Alexandria;
-    font-size: 2rem;
-    padding-bottom: 5vh;
+    font-size: 1.8rem;
+    padding-bottom: 4vh;
     padding-left: 0.75vw;
     padding-right: 0.75vw;
 
-    min-width: 30vw;
+    min-width: 25vw;
 
     display: flex;
     justify-content: space-between;
@@ -555,17 +557,17 @@ input[type=password]:focus {
 }
 
 .mainmenubtnIndex-warn {
-    background-color: #a73034;
-    color: white;
-    border: solid 2px #a73034;
+    background-color: #242424;
+    color: #a73034;
+    border: solid 2px #242424;
     border-radius: 5px;
     font-family: Alexandria;
-    font-size: 2rem;
-    padding-bottom: 5vh;
+    font-size: 1.8rem;
+    padding-bottom: 4vh;
     padding-left: 0.75vw;
     padding-right: 0.75vw;
 
-    min-width: 30vw;
+    min-width: 25vw;
 }
  
 .dropdownIndex {
@@ -688,9 +690,11 @@ input[type=password]:focus {
 /* Bottom Index Dashboard */
 .bottom-index-dashboard {
     font-family: Alexandria;
-    margin-top: 2.5%;
+    margin-top: 1.5%;
     display: flex;
     flex-direction: column;
+    margin-left: 15%;
+    margin-right: 2%;
 }
 
 .subtab-p{
@@ -710,8 +714,8 @@ input[type=password]:focus {
   }
 
 .card {
-    height: 65.5vh;
-    background-color: #e3e8ed;
+    height: 70vh;
+    background-color: white;
     overflow: auto;
     width: 100%;
     border-radius: 0px;
@@ -721,8 +725,8 @@ input[type=password]:focus {
     padding: 2vh 1vw 2vh 1vw;
     border-top: solid 1px #c2c6ca;
     border-left: solid 1px #c2c6ca;
-    background-color: #e3e8ed;
-    border-radius: 6px 0px 0px 0px;
+    border-right: solid 1px #c2c6ca;
+    border-radius: 6px 6px 0px 0px;
     
     display: flex;
     flex-direction: row;
@@ -788,7 +792,7 @@ input[type=password]:focus {
 
 
 .search {
-    border: solid 1px #a73034;
+    border: solid 1px #c2c6ca;
     border-radius: 6px;
     width: 80%;
     height: 3rem;
@@ -801,7 +805,7 @@ input[type=password]:focus {
 
 .search-input {
     width: 80%;
-    border: solid 1px #a73034;
+    border: solid 0.5px #c2c6ca;
     border-right-style: none;
     border-radius: 6px 0px 0px 6px;
     padding-top: 0.5%;
@@ -814,7 +818,7 @@ input[type=password]:focus {
 .search-statistics{
     width: 20%;
     background-color: white;
-    border: solid 1px #a73034;
+    border: solid 1px #c2c6ca;
     border-radius: 0px 6px 6px 0px;
     border-left-style: none;
     padding-top: 0.7%;
@@ -827,7 +831,7 @@ input[type=password]:focus {
 .search-statistics-disabled{
     width: 20%;
     background-color : transparent;
-    border: solid 1px #a73034;
+    border: solid 1px #c2c6ca;
     border-radius: 0px 6px 6px 0px;
     border-left-style: none;
     padding-top: 0.7%;
@@ -961,9 +965,9 @@ input[type=password]:focus {
 
 /* WARNING MESSAGE UNTUK YANG NGK DI MODAL */
 .window-delete-warning-main { 
-    background-color : #a73034;
+    background-color : #242424;
     position: relative;
-    color: white;
+    color: #a73034;
     margin: 3vh 1vw 3vh 1vw;
     height: 40px;
     border: none;
