@@ -907,7 +907,7 @@ input[type=password]:focus {
 }
 
 .window-confirm-button { 
-    background-color : #a73034;
+    background-color : black;
     position: relative;
     color:white;
     padding: 0px 12px;

@@ -347,7 +347,7 @@ impl Component for IndexPageComp {
 
             Msg::RequestIndexData => {
                 //FETCHING...
-                let url = format!("https://test-dps-api.dev-domain.site/api/index/{}", &self.app_id);
+                let url = format!("https://library-api.dev-domain.site/genre/{}", &self.app_id);
                 let request = Request::get(url)
                     // .header("access_token", get_access_token{}.unwrap_or_default())
                     .body(Nothing)
@@ -415,7 +415,7 @@ impl Component for IndexPageComp {
             }
 
             Msg::RequestAppData => {
-                let request = Request::get("https://test-dps-api.dev-domain.site/api/apps")
+                let request = Request::get("https://library-api.dev-domain.site/users")
                     // .header("access_token", get_access_token{}.unwrap_or_default())
                     .body(Nothing)
                     .expect("Could not build request.");
@@ -703,15 +703,15 @@ impl Component for IndexPageComp {
                                         onclick=self.link.callback(|_| Msg::ToggleCreateApp)
                                         style="background-color: #e3e8ed"
                                         >
-                                        { "Create New Application" }
+                                        { "Create new profile" }
                                     </a>
 
                                     <a 
                                         href="#" 
                                         onclick=self.link.callback(|_| Msg::ToggleDeleteApp)
-                                        style="color: white; background-color: #a73034"
+                                        style="color: white; background-color: black"
                                         >
-                                        { "Remove Application" }
+                                        { "Remove profile" }
                                     </a>
                                 </div>
                             </div>

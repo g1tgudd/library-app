@@ -12,7 +12,7 @@ use crate::{types::var};
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct CreateApp{
-    pub app_name: String
+    pub user_name: String
 }
 
 pub enum Msg {
@@ -39,7 +39,7 @@ pub struct AppCreate {
     props: WindowCreateAppProps,
     callback_toggle_createapp: Callback<Msg>,
     fetch_task: Option<FetchTask>,
-    app_name: String,
+    user_name: String,
     request_success: bool,
     loading: bool,
 
@@ -55,7 +55,7 @@ impl Component for AppCreate {
             callback_toggle_createapp: props.on_toggle_createapp.clone(),
             props,
             fetch_task: None,
-            app_name: String::from(""),
+            user_name: String::from(""),
             request_success: false,
             loading: false,
             
@@ -76,7 +76,7 @@ impl Component for AppCreate {
 
             Msg::InputCreateApp(data) => {
                 ConsoleService::info(&format!("Input Data: {:?}", data));
-                self.app_name = data;
+                self.user_name = data;
                 true
             }
 
@@ -84,10 +84,10 @@ impl Component for AppCreate {
                 self.loading = true;
 
                 let create = CreateApp {
-                    app_name: self.app_name.clone(),
+                    user_name: self.user_name.clone(),
                 };
 
-                let request = Request::post("https://test-dps-api.dev-domain.site/api/app")
+                let request = Request::post("https://library-api.dev-domain.site/user")
                     .header("Content-Type", "application/json")
                     .body(Json(&create))
                     .expect("Could not build request.");
@@ -117,7 +117,7 @@ impl Component for AppCreate {
             Msg::GetCreateApp(data) => {
                 self.request_success = true;
                 self.loading = false;
-                self.app_name = data;
+                self.user_name = data;
                 true
             }
 
@@ -148,7 +148,7 @@ impl Component for AppCreate {
                 <div class="window-index" id="create-app"> 
 
                     <div class="top-row-index-window">
-                        <h1>{"CREATE NEW APPLICATION"}</h1>
+                        <h1>{"CREATE NEW PROFILE"}</h1>
                         
                         <button 
                             type="button" 

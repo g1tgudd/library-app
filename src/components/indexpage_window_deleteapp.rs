@@ -17,14 +17,14 @@ pub enum Msg {
     InputDeleteApp(String),
 
     RequestAppData,
-    GetAppData(Option<Vec<AppData>>),
+    GetUserData(Option<Vec<UserData>>),
 
     ResponseError(String),
 }
 
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
-pub struct AppData{
+pub struct UserData{
     pub _id: String,
     pub _source: Value
 }
@@ -46,11 +46,11 @@ pub struct DeleteApp {
     callback_toggle_deleteapp: Callback<Msg>,
     fetch_task: Option<FetchTask>,
 
-    app_data: Option<Vec<AppData>>,
+    user_data: Option<Vec<UserData>>,
 
-    app_id: String,
+    user_id: String,
 
-    app_name: String,
+    user_name: String,
     request_success: bool,
 
     loading: bool,
@@ -67,10 +67,10 @@ impl Component for DeleteApp {
             props,
             fetch_task: None,
 
-            app_data: Some(vec![]),
+            user_data: Some(vec![]),
 
-            app_id: String::from(""),
-            app_name: String::from(""),
+            user_id: String::from(""),
+            user_name: String::from(""),
             request_success: false,
 
             loading: false,
@@ -86,18 +86,18 @@ impl Component for DeleteApp {
 
             Msg::RequestAppData => {
                 self.loading = true;
-                let request = Request::get("https://test-dps-api.dev-domain.site/api/apps")
+                let request = Request::get("https://library-api.dev-domain.site/users")
                     // .header("access_token", get_access_token{}.unwrap_or_default())
                     .body(Nothing)
                     .expect("Could not build request.");
                 let callback = 
-                    self.link.callback(|response: Response<Json<Result<Vec<AppData>, anyhow::Error>>>| {
+                    self.link.callback(|response: Response<Json<Result<Vec<UserData>, anyhow::Error>>>| {
                         let (meta, Json(data)) = response.into_parts();
         
                         match data { 
                             Ok(dataok) => {
                                 // ConsoleService::info(&format!("data response {:?}", &dataok));
-                                Msg:: GetAppData(Some(dataok))
+                                Msg:: GetUserData(Some(dataok))
                             }
                             Err(error) => {
                                 Msg::ResponseError(error.to_string())
@@ -111,16 +111,16 @@ impl Component for DeleteApp {
                 true
             }
 
-            Msg::GetAppData(data) => {
+            Msg::GetUserData(data) => {
                 self.loading = false;
-                self.app_data = data;
+                self.user_data = data;
                 true
             }
 
             Msg::InputDeleteApp(data) => {
                 // ConsoleService::info(&format!("Input Data for deletion: {:?}", data));
                 // let test = data.to_owned();
-                self.app_id = data;
+                self.user_id = data;
                 true
             }
 
@@ -128,7 +128,7 @@ impl Component for DeleteApp {
                 //POST FETCHING...
                 self.loading = true;
 
-                let url = format!("https://test-dps-api.dev-domain.site/api/app/{}", &self.app_id);
+                let url = format!("https://library-api.dev-domain.site/user/{}", &self.user_id);
 
                 let request = Request::delete(url)
                     // .header("Content-Type", "application/json")
@@ -197,7 +197,7 @@ impl Component for DeleteApp {
                 <div class="window-index" id="create-index"> 
 
                     <div class="top-row-index-window-insert">
-                        <h1>{"DELETE APPLICATION"}{""}</h1>
+                        <h1>{"DELETE PROFILE"}{""}</h1>
                         
                         <button 
                             type="button" 
@@ -208,12 +208,12 @@ impl Component for DeleteApp {
                     </div> 
 
                     <div style="margin-bottom: 15px">
-                        <p style="font-weight: bold;">{ "Here are a list of your Applications:" }</p>
-                        { self.view_app_data() }
+                        <p style="font-weight: bold;">{ "Here are a list of your User profile:" }</p>
+                        { self.view_user_data() }
                     </div>
 
                     <div style="margin-bottom: 20px">
-                        { "Please type the App ID you want to delete for confirmation." }
+                        { "Please type the User ID you want to delete for confirmation." }
                         <form class="deleteapp-text-input" id="submit-deleteapp">
 
                         <input 
@@ -221,7 +221,7 @@ impl Component for DeleteApp {
                             class="form-control" 
                             id="create-app-text" 
                             aria-describedby="emailHelp"
-                            placeholder="App ID to DELETE here..."
+                            placeholder="User ID to DELETE here..."
                             style="margin-top: 5px"
                             oninput = self.link.callback(|data: InputData| Msg::InputDeleteApp(data.value))
                             />
@@ -238,7 +238,7 @@ impl Component for DeleteApp {
                     </button> 
 
                     <button disabled=true class="window-delete-warning">
-                        {"ALL INDICES AND RECORD DATA INSIDE THE APPLICATION WILL BE DELETED!"}
+                        {"ALL INDICES AND RECORD DATA INSIDE THE PROFILE WILL BE DELETED!"}
                     </button> 
 
                     {
@@ -268,7 +268,7 @@ impl Component for DeleteApp {
                                 //     Msg::ToggleDeleteRecord,
                                 // ])
                                 >
-                                    { "DELETE APPLICATION" }
+                                    { "DELETE PROFILE" }
                                 </button>
                             }
                         }
@@ -292,8 +292,8 @@ impl Component for DeleteApp {
 }
 
 impl DeleteApp {
-    fn view_app_data(&self) -> Vec<Html> {
-        self.app_data.iter().map(|card|{
+    fn view_user_data(&self) -> Vec<Html> {
+        self.user_data.iter().map(|card|{
                 card.iter().map(|card_parse|{
                     let app_id = card_parse._id.clone();
                     let app_name = card_parse._source.clone();
@@ -303,7 +303,7 @@ impl DeleteApp {
                                 { app_name.get("name").unwrap().as_str().unwrap() }
                             </li>
                             <ul>
-                                <b>{ "App ID: " }</b>{ app_id }
+                                <b>{ "User ID: " }</b>{ app_id }
                             </ul>
                         </div>
                     )
