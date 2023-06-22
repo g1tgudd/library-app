@@ -161,7 +161,7 @@ impl Component for IndexCreate {
                 <div class="window-index" id="create-index"> 
 
                     <div class="top-row-index-window">
-                        <h1>{"CREATE INDEX"}</h1>
+                        <h1>{"CREATE GENRE"}</h1>
                         
                         <button 
                             type="button" 
@@ -215,7 +215,7 @@ impl Component for IndexCreate {
                                 //     Msg::ToggleCreateIndex,
                                 // ])
                             >
-                                    { "CREATE INDEX" }
+                                    { "CREATE GENRE" }
                             </button>
                             }
                         }

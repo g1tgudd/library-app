@@ -94,7 +94,7 @@ impl Component for InsertRecord {
                     Err(error) => ConsoleService::info(&format!("Error: {}", error)),
                 };
 
-                let url = format!("https://test-dps-api.dev-domain.site/api/document/{}/{}", &self.props.app_id, &self.props.card_index);
+                let url = format!("https://library-api.dev-domain.site/book/{}/{}", &self.props.app_id, &self.props.card_index);
                 let request = Request::post(url)
                     .header("Content-Type", "application/json")
                     .body(Json(&records))
@@ -171,8 +171,8 @@ impl Component for InsertRecord {
                         </button>
                     </div> 
 
-                    <h6>{"Add record with the JSON Format, containing a single object or an array of
-                     objects, for example : "}
+                    <h6>{"Add book details with the JSON Format, containing a single object or an array of
+                     objects. Each fields must be inserted, copy from the example given below: "}
                      </h6>
 
 // FORM INPUT TEXT UNTUK EXAMPLE JSON 
@@ -185,11 +185,12 @@ impl Component for InsertRecord {
                                 style="font-size:12px;font-weight: bold; line-height: 1.4;"
                                 
                                 >{"[{
-    \"key1\": \"value1\",
-    \"key2\": \"value2\",
-    \"key3\": \"value3\",
-    \"key4\": \"value4\",
-    \"key5\": \"value5\"
+    \"isbn\": \"value1\",
+    \"judul\": \"value2\",
+    \"penulis\": \"value3\",
+    \"penerbit\": \"value4\",
+    \"bahasa\": \"value5\"
+    \"tanggal_terbit\": \"dd-mm-yyyy\"
 }]
 "}                     </textarea>
                         </form>   
@@ -245,7 +246,7 @@ impl Component for InsertRecord {
                                     //     Msg::RequestCreateRecordsData,
                                     // ])
                                 >
-                                    { "INSERT NEW RECORD" }
+                                    { "INSERT NEW BOOK DETAILS" }
                                 </button>
                             }
                         }

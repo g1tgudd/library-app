@@ -87,14 +87,14 @@ impl Component for DeleteRecord {
             Msg::RequestIndexData => {
                 self.loading = true;
                 //FETCHING...
-                let request = Request::get(format!("https://test-dps-api.dev-domain.site/api/index/{}", &self.app_id))
+                let url = format!("https://library-api.dev-domain.site/genre/{}", &self.app_id);
+                let request = Request::get(url)
                     // .header("access_token", get_access_token{}.unwrap_or_default())
                     .body(Nothing)
                     .expect("Could not build request.");
                 let callback = 
                     self.link.callback(|response: Response<Json<Result<Vec<IndexData>, anyhow::Error>>>| {
                         let (meta, Json(data)) = response.into_parts();
-                        // let status_number = meta.status.as_u16();
         
                         match data { 
                             Ok(dataok) => {
@@ -129,7 +129,7 @@ impl Component for DeleteRecord {
 
             Msg::RequestDeleteIndex => {
                 self.loading = true;
-                let url = format!("https://test-dps-api.dev-domain.site/api/index/{}/{}", &self.app_id, &self.index_name);
+                let url = format!("https://library-api.dev-domain.site/genre/{}/{}", &self.app_id, &self.index_name);
 
                 let request = Request::delete(url)
                     // .header("Content-Type", "application/json")
@@ -199,7 +199,7 @@ impl Component for DeleteRecord {
 
                     <div class="top-row-index-window-insert">
                         //Diganti Lagi ke DELETE RECORD #
-                        <h1>{"DELETE INDEX"}{""}</h1>
+                        <h1>{"DELETE GENRE"}{""}</h1>
                         
                         <button 
                             type="button" 
@@ -210,12 +210,12 @@ impl Component for DeleteRecord {
                     </div> 
 
                     <div style="margin-bottom: 15px">
-                        <p style="font-weight: bold;">{ "Here are a list of your indexes:" }</p>
+                        <p style="font-weight: bold;">{ "Here are a list of your genres:" }</p>
                         { self.view_index_data() }
                     </div>
 
                     <div style="margin-bottom: 20px">
-                        { "Please type the index name you want to delete for confirmation." }
+                        { "Please type the genre name you want to delete for confirmation." }
                         <form class="createindex-text-input" id="submit-createindex">
 
                         <input 
@@ -223,7 +223,7 @@ impl Component for DeleteRecord {
                             class="form-control" 
                             id="create-index-text" 
                             aria-describedby="emailHelp"
-                            placeholder="Index name to DELETE here..."
+                            placeholder="Genre name to DELETE here..."
                             style="margin-top: 5px"
                             oninput = self.link.callback(|data: InputData| Msg::InputDeleteIndex(data.value))
                             />
@@ -266,7 +266,7 @@ impl Component for DeleteRecord {
                                 //     Msg::ToggleDeleteRecord,
                                 // ])
                                 >
-                                    { "DELETE INDEX" }
+                                    { "DELETE GENRE" }
                                 </button>
                             }
                         }

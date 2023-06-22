@@ -7,13 +7,19 @@ use yew::{
     },
 };
 use serde::{Deserialize, Serialize};
-use serde_json::{Value};
+use serde_json::{Value, json};
 use crate::types::var::EditModalData;
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct AppData{
     pub _id: String,
     pub _source: Value
+}
+
+pub struct BookData {
+    user_id: String,
+    genre: String,
+    book_id: String
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
@@ -24,11 +30,10 @@ pub struct IndexData{
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct SearchRecord {
-    pub index: String,
+    pub genre: String,
     pub search_term: String,
     pub from: u32,
-    pub count: u32,
-    pub wildcards: bool
+    pub count: u32
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
@@ -302,18 +307,17 @@ impl Component for IndexPageComp {
 
             Msg::RequestSearch(data) => {
                 let mut search_term = SearchRecord{
-                    index: self.index_name.clone(),
+                    genre: self.index_name.clone(),
                     search_term: String::from(""),
                     from: 0,
                     count: 20,
-                    wildcards: true
                 };
                 if data.is_empty() {
                     search_term.search_term = String::from("*");
                 }else {
                     search_term.search_term = data;
                 }
-                let request = Request::post(format!("https://test-dps-api.dev-domain.site/api/search/{}/{}", &self.app_id, &self.index_name))
+                let request = Request::post(format!("https://library-api.dev-domain.site/search/{}?genre={}", &self.app_id, &self.index_name))
                     .header("Content-Type", "application/json")
                     .body(Json(&search_term))
                     .expect("Could not build request.");
@@ -534,8 +538,9 @@ impl Component for IndexPageComp {
             }
             
             Msg::RequestRecordData => {
+
                 self.loading_record = true;
-                let request = Request::get(format!("https://test-dps-api.dev-domain.site/api/search/{}/{}", &self.app_id, &self.index_name))
+                let request = Request::get(format!("https://library-api.dev-domain.site/search/{}?genre={}&search_term=", &self.app_id, &self.index_name))
                     // .header("access_token", get_access_token{}.unwrap_or_default())
                     .body(Nothing)
                     .expect("Could not build request.");
@@ -571,7 +576,7 @@ impl Component for IndexPageComp {
                 // ConsoleService::info(&format!("data is {:?}", data.get("data").unwrap().as_array().unwrap()));
                 let from = data.get("from").unwrap().as_i64().unwrap_or(0);
                 let count = data.get("count").unwrap().as_i64().unwrap_or(0);
-                let total_data = data.get("total_data").unwrap().as_i64().unwrap_or(0);
+                let total_data = data.get("total").unwrap().as_i64().unwrap_or(0);
 
                 self.total_page = (total_data as f64 / count as f64).ceil() as i64;
                 ConsoleService::info(&format!("Total page:  {:?}", self.total_page));
@@ -583,7 +588,7 @@ impl Component for IndexPageComp {
                 self.loading_record = false;
                 self.record_data = data;
 
-                self.record_count = self.record_data.get("total_data").unwrap().to_string().parse().unwrap();
+                self.record_count = self.record_data.get("total").unwrap().to_string().parse().unwrap();
                 true
             }
 
@@ -753,7 +758,7 @@ impl Component for IndexPageComp {
                                                                 Msg::ToggleCreateIndex(app_id_view.clone()),
                                                             ]) 
                                                             >
-                                                            { "Create New Index" }
+                                                            { "Create New Genre" }
                                                         </a>
                                                         <a 
                                                             href="#"
@@ -765,7 +770,7 @@ impl Component for IndexPageComp {
                                                                 Msg::ToggleDeleteRecord(app_id_view2.clone()),
                                                             ])
                                                             >
-                                                            { "Remove Index" }
+                                                            { "Remove Genre" }
                                                         </a>
                                                     </div>
                                                 </div>
@@ -810,37 +815,6 @@ impl Component for IndexPageComp {
                                                     >
                                                         { "Insert by JSON" }
                                                     </a>
-                                                    <a 
-                                                        href="#" 
-                                                        onclick=self.link.batch_callback(move |_| vec![
-                                                            Msg::SendAppIdToParent(app_id_view4.clone()),
-                                                            Msg::SendIndexNameToParent(index_name_view2.clone()),
-                                                            Msg::ToggleUploadRecord(app_id_view4.clone(), index_name_view2.clone()),
-                                                        ])
-                                                    >
-                                                        { "Upload File" }
-                                                    </a>
-                                                </div>
-                                            </div>
-            
-                                            //Add Record Dropdown
-                                            // <div class="dropdownRecord">
-                                            //     <button class="mainmenubtnRecord">{ "Add Records \u{00a0} \u{00a0} \u{00a0} \u{23F7}"}</button>
-                                            //     <div class="dropdown-childRecord">
-                                            //         <a href="#">{ "Upload File" }</a>
-                                            //         <a href="#">{ "Use the API" }</a>
-                                            //         <a href="#">{ "Add Manually" }</a>
-                                            //     </div>
-                                            // </div>
-            
-                                            <div class="dropdownRecord">
-                                                <button class="mainmenubtnRecord">{ "Manage Index \u{00a0} \u{00a0} \u{00a0} \u{23F7}"}</button>
-                                                <div class="dropdown-childRecord">
-                                                    <a href="#">{ "Rename" }</a>
-                                                    <a href="#">{ "Duplicate" }</a>
-                                                    <a href="#">{ "Copy Settings" }</a>
-                                                    <a href="#">{ "Clear" }</a>
-                                                    <a href="#">{ "Delete" }</a>
                                                 </div>
                                             </div>
             
@@ -858,7 +832,7 @@ impl Component for IndexPageComp {
                                     <div class="search">
 
                                         {
-                                            if self.index_name == "SELECT GENRE ..." {
+                                            if self.app_name == "UNSELECTED" {
                                                 html!{
                                                     <input
                                                         class= "search-input"
@@ -869,6 +843,16 @@ impl Component for IndexPageComp {
                                                     />
                                                 }
 
+                                            } else if self.index_name == "SELECT GENRE ..."{
+                                                html!{
+                                                    <input
+                                                        class= "search-input"
+                                                        disabled = true
+                                                        type="text"
+                                                        placeholder="Please Select Genre first!"
+                                                        oninput = self.link.callback(|data: InputData| Msg::InputSearch(data.value))
+                                                    />
+                                                }   
                                             } else {
                                                 html!{
                                                     <input

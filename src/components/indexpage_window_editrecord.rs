@@ -123,7 +123,7 @@ impl Component for EditRecord {
                     Err(Error) => ConsoleService::info(&format!("Data Input = {}", &Error)),
                 };
 
-                let url = format!("https://test-dps-api.dev-domain.site/api/document/{}/{}/{}", &self.app_id, &self.props.card_index, &self.props.edit_index.replace("\"", ""));
+                let url = format!("https://library-api.dev-domain.site/book/{}/{}/{}", &self.app_id, &self.props.card_index, &self.props.edit_index.replace("\"", ""));
                 let request = Request::put(url)
                     .header("Content-Type", "application/json")
                     .body(Json(&records))
@@ -182,7 +182,7 @@ impl Component for EditRecord {
                 <div class="window-index" id="create-index"> 
 
                     <div class="top-row-index-window-insert">
-                        <h1>{"EDIT RECORD "}{self.props.edit_index.clone().replace("\"", "")}</h1>
+                        <h1>{"EDIT BOOK DETAILS "}{self.props.edit_index.clone()}</h1>
                         
                         <button 
                             type="button" 
@@ -192,7 +192,7 @@ impl Component for EditRecord {
                         </button>
                     </div> 
 
-                    <h6>{"Edit this record's JSON values"}
+                    <h6>{"Edit this book detail's JSON values"}
                      </h6>
 
                     <div class="window-submit-form">
@@ -238,7 +238,7 @@ impl Component for EditRecord {
                                     //     Msg::ToggleEditRecord,
                                     // ])
                                     >
-                                    { "EDIT RECORD" }
+                                    { "EDIT BOOK DETAIL" }
                                     </button>
                                 }
                             }

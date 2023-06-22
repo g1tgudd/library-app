@@ -196,7 +196,7 @@ impl Component for AppCreate {
                                 form="submit-createapp"
                                 onclick = self.link.callback(|_| Msg::RequestCreateApplication)
                                 >
-                                    { "CREATE APPLICATION" }
+                                    { "CREATE USER PROFILE" }
                                 </button>                                
                             }
                         }
