@@ -24,7 +24,7 @@ pub enum Msg {
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct CreateIndex{
-    pub index: String
+    pub genre: String
 }
 
 #[derive(Properties, Clone, Debug, PartialEq)]
@@ -43,7 +43,7 @@ pub struct IndexCreate {
     link: ComponentLink<Self>,
     props: WindowCreateIndexProps,
     callback_toggle_createindex: Callback<Msg>,
-    index: String,
+    genre: String,
     fetch_task: Option<FetchTask>,
     request_success: bool,
     app_id: String,
@@ -61,7 +61,7 @@ impl Component for IndexCreate {
             callback_toggle_createindex: props.on_toggle_createindex.clone(),
             app_id: props.app_id.clone(),
             props,
-            index: String::from(""),
+            genre: String::from(""),
             fetch_task: None,
             request_success: false,
             loading: false
@@ -78,7 +78,7 @@ impl Component for IndexCreate {
             Msg::InputCreateIndex(data) => {
                 // ConsoleService::info(&format!("Input Data: {:?}", data));
                 // let test = data.to_owned();
-                self.index = data;
+                self.genre = data;
                 true
             }
             
@@ -87,10 +87,10 @@ impl Component for IndexCreate {
                 self.loading = true;
 
                 let create = CreateIndex {
-                    index: self.index.clone(),
+                    genre: self.genre.clone(),
                 };
 
-                let url = format!("https://test-dps-api.dev-domain.site/api/index/{}", &self.app_id);
+                let url = format!("https://library-api.dev-domain.site/genre/{}", &self.app_id);
 
                 let request = Request::post(url)
                     .header("Content-Type", "application/json")
@@ -124,7 +124,7 @@ impl Component for IndexCreate {
                 self.request_success = true;
                 self.loading = false;
 
-                self.index = data;
+                self.genre = data;
 
                 true
             }
