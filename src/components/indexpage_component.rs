@@ -802,7 +802,7 @@ impl Component for IndexPageComp {
                                         html!{
                                             <div style="margin-bottom: -15px">
                                                 <div class="dropdownRecord">
-                                                <button class="mainmenubtnRecord">{ "New Record \u{00a0} \u{00a0} \u{00a0} \u{00a0} \u{23F7}"}</button>
+                                                <button class="mainmenubtnRecord">{ "Insert New Book Detail \u{00a0} \u{00a0} \u{00a0} \u{00a0} \u{23F7}"}</button>
                                                 <div class="dropdown-childRecord">
                                                     <a 
                                                         href="#" 
@@ -1024,7 +1024,7 @@ impl Component for IndexPageComp {
                                                 {
                                                     html!{
                                                         <button disabled=true class="window-delete-warning-main" >
-                                                            {"NO RECORD!"}
+                                                            {"NO BOOK DETAIL!"}
                                                         </button> 
                                                     }
                                         } else if   self.index_name == "SELECT GENRE ..." && 
@@ -1041,7 +1041,7 @@ impl Component for IndexPageComp {
                                                         {
                                                             html!{
                                                                 <button disabled=true class="window-delete-warning-main" >
-                                                                    {"SELECT APP!"}
+                                                                    {"SELECT USER PROFILE!"}
                                                                 </button> 
                                                             }
                                         } else {
