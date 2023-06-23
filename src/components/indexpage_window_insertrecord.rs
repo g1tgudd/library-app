@@ -189,7 +189,7 @@ impl Component for InsertRecord {
     \"judul\": \"value2\",
     \"penulis\": \"value3\",
     \"penerbit\": \"value4\",
-    \"bahasa\": \"value5\"
+    \"bahasa\": \"value5\",
     \"tanggal_terbit\": \"dd-mm-yyyy\"
 }]
 "}                     </textarea>
