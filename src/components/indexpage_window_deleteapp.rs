@@ -86,7 +86,7 @@ impl Component for DeleteApp {
 
             Msg::RequestAppData => {
                 self.loading = true;
-                let request = Request::get("https://library-api.dev-domain.site/users")
+                let request = Request::get("http://localhost:1234/users")
                     // .header("access_token", get_access_token{}.unwrap_or_default())
                     .body(Nothing)
                     .expect("Could not build request.");
@@ -128,7 +128,7 @@ impl Component for DeleteApp {
                 //POST FETCHING...
                 self.loading = true;
 
-                let url = format!("https://library-api.dev-domain.site/user/{}", &self.user_id);
+                let url = format!("http://localhost:1234/user/{}", &self.user_id);
 
                 let request = Request::delete(url)
                     // .header("Content-Type", "application/json")

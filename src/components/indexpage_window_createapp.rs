@@ -87,7 +87,7 @@ impl Component for AppCreate {
                     user_name: self.user_name.clone(),
                 };
 
-                let request = Request::post("https://library-api.dev-domain.site/user")
+                let request = Request::post("http://localhost:1234/user")
                     .header("Content-Type", "application/json")
                     .body(Json(&create))
                     .expect("Could not build request.");

@@ -90,7 +90,7 @@ impl Component for IndexCreate {
                     genre: self.genre.clone(),
                 };
 
-                let url = format!("https://library-api.dev-domain.site/genre/{}", &self.app_id);
+                let url = format!("http://localhost:1234/genre/{}", &self.app_id);
 
                 let request = Request::post(url)
                     .header("Content-Type", "application/json")

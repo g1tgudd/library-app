@@ -73,7 +73,7 @@ impl Component for DeleteCard {
 
             Msg::RequestDeleteCard => {
                 self.loading = true;
-                let url = format!("https://library-api.dev-domain.site/book/{}/{}/{}", &self.props.app_id, &self.props.card_index, &self.props.delete_index.replace("\"", ""));
+                let url = format!("http://localhost:1234/book/{}/{}/{}", &self.props.app_id, &self.props.card_index, &self.props.delete_index.replace("\"", ""));
                 // ConsoleService::info(&format!("RecordID: {:?}", self.props.delete_index));
                 let request = Request::delete(url)
                     // .header("Content-Type", "application/json")

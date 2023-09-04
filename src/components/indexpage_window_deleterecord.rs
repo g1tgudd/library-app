@@ -87,7 +87,7 @@ impl Component for DeleteRecord {
             Msg::RequestIndexData => {
                 self.loading = true;
                 //FETCHING...
-                let url = format!("https://library-api.dev-domain.site/genre/{}", &self.app_id);
+                let url = format!("http://localhost:1234/genre/{}", &self.app_id);
                 let request = Request::get(url)
                     // .header("access_token", get_access_token{}.unwrap_or_default())
                     .body(Nothing)
@@ -129,7 +129,7 @@ impl Component for DeleteRecord {
 
             Msg::RequestDeleteIndex => {
                 self.loading = true;
-                let url = format!("https://library-api.dev-domain.site/genre/{}/{}", &self.app_id, &self.index_name);
+                let url = format!("http://localhost:1234/genre/{}/{}", &self.app_id, &self.index_name);
 
                 let request = Request::delete(url)
                     // .header("Content-Type", "application/json")

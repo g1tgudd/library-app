@@ -88,7 +88,7 @@ impl Component for UploadRecord {
                     Err(error) => ConsoleService::info(&format!("Error: {}", error)),
                 };
 
-                let url = format!("https://test-dps-api.dev-domain.site/api/document/{}/{}", &self.props.app_id, &self.props.card_index);
+                let url = format!("http://localhost:1234/document/{}/{}", &self.props.app_id, &self.props.card_index);
                 let request = Request::post(url)
                     .header("Content-Type", "application/json")
                     .body(Json(&records))

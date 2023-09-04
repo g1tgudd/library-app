@@ -317,7 +317,7 @@ impl Component for IndexPageComp {
                 }else {
                     search_term.search_term = data;
                 }
-                let request = Request::post(format!("https://library-api.dev-domain.site/search/{}?genre={}", &self.app_id, &self.index_name))
+                let request = Request::post(format!("http://localhost:1234/search/{}?genre={}", &self.app_id, &self.index_name))
                     .header("Content-Type", "application/json")
                     .body(Json(&search_term))
                     .expect("Could not build request.");
@@ -351,7 +351,7 @@ impl Component for IndexPageComp {
 
             Msg::RequestIndexData => {
                 //FETCHING...
-                let url = format!("https://library-api.dev-domain.site/genre/{}", &self.app_id);
+                let url = format!("http://localhost:1234/genre/{}", &self.app_id);
                 let request = Request::get(url)
                     // .header("access_token", get_access_token{}.unwrap_or_default())
                     .body(Nothing)
@@ -419,7 +419,7 @@ impl Component for IndexPageComp {
             }
 
             Msg::RequestAppData => {
-                let request = Request::get("https://library-api.dev-domain.site/users")
+                let request = Request::get("http://localhost:1234/users")
                     // .header("access_token", get_access_token{}.unwrap_or_default())
                     .body(Nothing)
                     .expect("Could not build request.");
@@ -485,7 +485,7 @@ impl Component for IndexPageComp {
             }
 
             Msg::RequestDeleteApp => {
-                let url = format!("https://test-dps-api.dev-domain.site/api/app/:app_id", );
+                let url = format!("http://localhost:1234/app/:app_id", );
                 // ConsoleService::info(&format!("RecordID: {:?}", self.props.delete_index));
                 let request = Request::delete(url)
                     // .header("Content-Type", "application/json")
@@ -512,7 +512,7 @@ impl Component for IndexPageComp {
                     count: 20
                 };
 
-                let request = Request::post(format!("https://test-dps-api.dev-domain.site/api/search/{}/{}", &self.app_id, &self.index_name))
+                let request = Request::post(format!("http://localhost:1234/search/{}?genre={}", &self.app_id, &self.index_name))
                     .header("Content-Type", "application/json")
                     .body(Json(&pages))
                     .expect("Could not build request.");
@@ -540,7 +540,7 @@ impl Component for IndexPageComp {
             Msg::RequestRecordData => {
 
                 self.loading_record = true;
-                let request = Request::get(format!("https://library-api.dev-domain.site/search/{}?genre={}&search_term=", &self.app_id, &self.index_name))
+                let request = Request::get(format!("http://localhost:1234/search/{}?genre={}&search_term=", &self.app_id, &self.index_name))
                     // .header("access_token", get_access_token{}.unwrap_or_default())
                     .body(Nothing)
                     .expect("Could not build request.");
@@ -784,7 +784,7 @@ impl Component for IndexPageComp {
                                         } else {
                                             html!{
                                                 <div class="recordData">
-                                                    <p class="recordNum">{ "No. of Records \u{00a0} \u{00a0} \u{00a0} \u{00a0}" }{self.record_count}</p>
+                                                    <p class="recordNum">{ "No. of Books \u{00a0} \u{00a0} \u{00a0} \u{00a0}" }{self.record_count}</p>
                                                     <p style="float: left;">{ "\u{00a0} \u{00a0} \u{00a0}" }</p>
                                                     <p class="recordSize">{ "Index Size\u{00a0} \u{00a0} \u{00a0} \u{00a0}" }{&self.index_size}</p>
                                                 </div>

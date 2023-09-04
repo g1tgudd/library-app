@@ -94,7 +94,7 @@ impl Component for InsertRecord {
                     Err(error) => ConsoleService::info(&format!("Error: {}", error)),
                 };
 
-                let url = format!("https://library-api.dev-domain.site/book/{}/{}", &self.props.app_id, &self.props.card_index);
+                let url = format!("http://localhost:1234/book/{}/{}", &self.props.app_id, &self.props.card_index);
                 let request = Request::post(url)
                     .header("Content-Type", "application/json")
                     .body(Json(&records))

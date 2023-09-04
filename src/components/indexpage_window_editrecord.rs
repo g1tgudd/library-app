@@ -123,7 +123,7 @@ impl Component for EditRecord {
                     Err(Error) => ConsoleService::info(&format!("Data Input = {}", &Error)),
                 };
 
-                let url = format!("https://library-api.dev-domain.site/book/{}/{}/{}", &self.app_id, &self.props.card_index, &self.props.edit_index.replace("\"", ""));
+                let url = format!("http://localhost:1234/book/{}/{}/{}", &self.app_id, &self.props.card_index, &self.props.edit_index.replace("\"", ""));
                 let request = Request::put(url)
                     .header("Content-Type", "application/json")
                     .body(Json(&records))
