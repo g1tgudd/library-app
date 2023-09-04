@@ -229,7 +229,7 @@ impl AppCreate {
                 <div class="window-index" id="create-index"> 
 
                     <div class="top-row-index-window-insert">
-                        <h1>{"CREATE APPLICATION SUCCESSFUL"}</h1>
+                        <h1>{"CREATE USER PROFILE SUCCESSFUL"}</h1>
                     </div> 
 
                     <button 
