@@ -815,6 +815,16 @@ impl Component for IndexPageComp {
                                                     >
                                                         { "Insert by JSON" }
                                                     </a>
+                                                    <a 
+                                                        href="#" 
+                                                        onclick=self.link.batch_callback(move |_| vec![
+                                                            Msg::SendAppIdToParent(app_id_view4.clone()),
+                                                            Msg::SendIndexNameToParent(index_name_view2.clone()),
+                                                            Msg::ToggleUploadRecord(app_id_view4.clone(), index_name_view2.clone()),
+                                                        ])
+                                                    >
+                                                        { "Upload File" }
+                                                    </a>
                                                 </div>
                                             </div>
             

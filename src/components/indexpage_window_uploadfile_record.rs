@@ -1,9 +1,13 @@
 use serde::Serialize;
 use serde_json::json;
+use wasm_bindgen::JsValue;
 use yew::{prelude::*, services::ConsoleService};
 use yew::services::fetch::Request;
 use yew::services::fetch::{Response, FetchService, FetchTask};
 use yew::format::{Json, self};
+use yew::events::ChangeData;
+use yew::web_sys::File;
+use web_sys::FormData;
 
 pub enum Msg {
     ToggleUploadRecord,
@@ -11,6 +15,9 @@ pub enum Msg {
     ValidateUploadFile,
     Ignore,
     ErrorIgnore,
+
+    SelectFile(Option<File>),
+    ClearFile,
 }
 
 #[derive(Properties, Clone, Debug, PartialEq)]
@@ -43,6 +50,8 @@ pub struct UploadRecord {
 
     //UNTUK DETECT DIA MASIH LOADING ATAU NGK DI MODAL
     loading: bool,
+
+    file: Option<File>,
 }
 
 impl Component for UploadRecord {
@@ -62,6 +71,8 @@ impl Component for UploadRecord {
             request_fail: false,
 
             loading: false,
+
+            file: None,
         }
     }
 
@@ -77,42 +88,66 @@ impl Component for UploadRecord {
                 true
             }
 
+            Msg::SelectFile(file) => {
+                self.file = file;
+                true
+            }
+            
+            Msg::ClearFile => {
+                self.file = None;
+                true
+            }
+
             Msg::RequestCreateRecordsData => {
                 //LOADING STATUS KE STATE
                 self.loading = true;
                 ConsoleService::info(&format!("DEBUG loading status : {:?}", &self.loading));
 
-                let mut records: serde_json::Value = json!({});
-                match serde_json::from_str::<Vec<serde_json::Value>>(&self.value) {
-                    Ok(_) => records = serde_json::from_str::<serde_json::Value>(&self.value).unwrap(),
-                    Err(error) => ConsoleService::info(&format!("Error: {}", error)),
-                };
+                let form_data = FormData::new().unwrap();
+                form_data.append_with_blob("file", self.file.as_ref().unwrap()).unwrap();
 
-                let url = format!("http://localhost:1234/document/{}/{}", &self.props.app_id, &self.props.card_index);
-                let request = Request::post(url)
-                    .header("Content-Type", "application/json")
-                    .body(Json(&records))
-                    .expect("Could not build request.");
-                let callback = 
-                    self.link.callback(|response: Response<Json<Result<String, anyhow::Error>>>| {
-                        let (meta, Json(data)) = response.into_parts();
-                        match data { 
-                            Ok(dataok) => {
-                                // ConsoleService::info(&format!("data response {:?}", &dataok));
-                                Msg::Ignore
+                let mut opts = web_sys::RequestInit::new();
+                opts.method("POST");
+                opts.body(Some(&JsValue::from(form_data)));
+
+                let request = web_sys::Request::new_with_str_and_init(&format!("http://localhost:1234/document/{}/{}", &self.props.app_id, &self.props.card_index).to_string() , &opts).unwrap();
+                let window = web_sys::window().unwrap();
+                let _ = window.fetch_with_request(&request);
+
+                self.request_success = true;
+                self.loading = false;
+
+                // let mut records: serde_json::Value = json!({});
+                // match serde_json::from_str::<Vec<serde_json::Value>>(&self.value) {
+                //     Ok(_) => records = serde_json::from_str::<serde_json::Value>(&self.value).unwrap(),
+                //     Err(error) => ConsoleService::info(&format!("Error: {}", error)),
+                // };
+
+                // let url = format!("http://localhost:1234/document/{}/{}", &self.props.app_id, &self.props.card_index);
+                // let request = Request::post(url)
+                //     .header("Content-Type", "application/json")
+                //     .body(Json(&records))
+                //     .expect("Could not build request.");
+                // let callback = 
+                //     self.link.callback(|response: Response<Json<Result<String, anyhow::Error>>>| {
+                //         let (meta, Json(data)) = response.into_parts();
+                //         match data { 
+                //             Ok(dataok) => {
+                //                 // ConsoleService::info(&format!("data response {:?}", &dataok));
+                //                 Msg::Ignore
                                 
-                            }
-                            Err(error) => {
-                                Msg::ErrorIgnore
-                            }
-                        }
-                    });
-                    // self.callback_toggle_insertrecord.emit(Msg::ToggleInsertRecord);
-                    let task = FetchService::fetch(request, callback).expect("failed to start request");
+                //             }
+                //             Err(error) => {
+                //                 Msg::ErrorIgnore
+                //             }
+                //         }
+                //     });
+                //     // self.callback_toggle_insertrecord.emit(Msg::ToggleInsertRecord);
+                //     let task = FetchService::fetch(request, callback).expect("failed to start request");
                 
                     
-                    self.fetch_task = Some(task);
-                    ConsoleService::info(&format!("Getting Data.."));
+                //     self.fetch_task = Some(task);
+                //     ConsoleService::info(&format!("Getting Data.."));
                     
                 true
             }
@@ -174,7 +209,17 @@ impl Component for UploadRecord {
                                 id="upload-dropzone" 
                                 name="upload-input" 
                                 accept=".json"
-                                oninput= self.link.callback(|_| Msg::ValidateUploadFile)
+                                onchange=self.link.callback(|event: ChangeData| {
+                                    if let ChangeData::Files(files) = event {
+                                        if let Some(file) = files.get(0) {
+                                            Msg::SelectFile(Some(file))
+                                        } else {
+                                            Msg::Ignore
+                                        }
+                                    } else {
+                                        Msg::Ignore
+                                    }
+                                })
                                 />
                         </div>
 
@@ -207,50 +252,63 @@ impl Component for UploadRecord {
                     </div> 
                    
 // FORM INPUT EXAMPLE END
+                    <button 
+                    type="submit"
+                    form="submit-insertrecord"
+                    class="window-confirm-button"
+                    onclick = self.link.callback(|_| Msg::RequestCreateRecordsData)
 
-                {
-                    if self.file_is_valid {
-                        if self.loading {
-                            html!{
-                                <button 
-                                type="submit"
-                                form="submit-insertrecord"
-                                class="window-confirm-button"
-                                // onclick = self.link.callback(|_| Msg::RequestCreateRecordsData)
-                                >
-                                    <span class="loader">
-                                        <span class="loader-inner">
-                                        </span>
-                                    </span>
-                                </button>
-                            }
-                        } else {
-                            html!{
-                                <button 
-                                    type="submit"
-                                    form="submit-insertrecord"
-                                    class="window-confirm-button"
-                                    onclick = self.link.callback(|_| Msg::RequestCreateRecordsData)
+                    // onclick=self.link.batch_callback(|_| vec![
+                    //     Msg::ToggleInsertRecord,
+                    //     Msg::RequestCreateRecordsData,
+                    // ])
+                    >
+                    { "UPLOAD RECORDS FILE" }
+                    </button>
+
+                // {
+                //     if self.file_is_valid {
+                //         if self.loading {
+                //             html!{
+                //                 <button 
+                //                 type="submit"
+                //                 form="submit-insertrecord"
+                //                 class="window-confirm-button"
+                //                 // onclick = self.link.callback(|_| Msg::RequestCreateRecordsData)
+                //                 >
+                //                     <span class="loader">
+                //                         <span class="loader-inner">
+                //                         </span>
+                //                     </span>
+                //                 </button>
+                //             }
+                //         } else {
+                //             html!{
+                //                 <button 
+                //                     type="submit"
+                //                     form="submit-insertrecord"
+                //                     class="window-confirm-button"
+                //                     onclick = self.link.callback(|_| Msg::RequestCreateRecordsData)
     
-                                    // onclick=self.link.batch_callback(|_| vec![
-                                    //     Msg::ToggleInsertRecord,
-                                    //     Msg::RequestCreateRecordsData,
-                                    // ])
-                                >
-                                    { "UPLOAD RECORDS FILE" }
-                                </button>
-                            }
-                        }
+                //                     // onclick=self.link.batch_callback(|_| vec![
+                //                     //     Msg::ToggleInsertRecord,
+                //                     //     Msg::RequestCreateRecordsData,
+                //                     // ])
+                //                 >
+                //                     { "UPLOAD RECORDS FILE" }
+                //                 </button>
+                //             }
+                //         }
                         
-                    } else {
-                        html! {
-                            <button disabled=true class="window-confirm-button">
-                                {"PLEASE UPLOAD A FILE"}
-                            </button> 
-                        }
-                    }
+                //     } else {
+                //         html! {
+                //             <button disabled=true class="window-confirm-button">
+                //                 {"PLEASE UPLOAD A FILE"}
+                //             </button> 
+                //         }
+                //     }
 
-                }
+                // }
                 </div>
                 
                 {
