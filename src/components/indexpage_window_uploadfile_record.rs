@@ -110,7 +110,7 @@ impl Component for UploadRecord {
                 opts.method("POST");
                 opts.body(Some(&JsValue::from(form_data)));
 
-                let request = web_sys::Request::new_with_str_and_init(&format!("http://localhost:1234/document/{}/{}", &self.props.app_id, &self.props.card_index).to_string() , &opts).unwrap();
+                let request = web_sys::Request::new_with_str_and_init(&format!("http://localhost:1234/upload/{}/{}", &self.props.app_id, &self.props.card_index).to_string() , &opts).unwrap();
                 let window = web_sys::window().unwrap();
                 let _ = window.fetch_with_request(&request);
 
