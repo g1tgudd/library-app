@@ -503,7 +503,8 @@ input[type=password]:focus {
  }
 
  .dropdown-child a:hover {
-    color: #a73034;
+    color: #a73034 !important;
+    cursor: pointer;
  }
 
  .dropdown:hover .dropdown-child {

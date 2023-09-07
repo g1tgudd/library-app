@@ -704,7 +704,7 @@ impl Component for IndexPageComp {
 
                                     { self.view_app_data() }
                                     <a 
-                                        href="#" 
+                                        href="#"
                                         onclick=self.link.callback(|_| Msg::ToggleCreateApp)
                                         style="background-color: #e3e8ed"
                                         >
@@ -1123,7 +1123,7 @@ impl IndexPageComp {
                     let app_name = card_parse._source.clone();
                     let app_name_2 = card_parse._source.get("name").unwrap().to_string().replace("\"", "");
                     html!(
-                        <a onclick=self.link.callback(move |_| Msg::SelectApp(app_id.clone(), app_name_2.clone()))>
+                        <a class="user-list" onclick=self.link.callback(move |_| Msg::SelectApp(app_id.clone(), app_name_2.clone()))>
                             { app_name.get("name").unwrap().as_str().unwrap() }
                         </a>
                     )
