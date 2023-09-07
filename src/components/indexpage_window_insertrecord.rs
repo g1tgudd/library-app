@@ -161,7 +161,7 @@ impl Component for InsertRecord {
                 <div class="window-index" id="create-index"> 
 
                     <div class="top-row-index-window-insert">
-                        <h1>{"INSERT NEW RECORD"}</h1>
+                        <h1>{"INSERT NEW BOOK DETAILS(S)"}</h1>
                         
                         <button 
                             type="button" 
@@ -197,7 +197,7 @@ impl Component for InsertRecord {
                     </div> 
 // FORM INPUT EXAMPLE END
 
-                    <h6>{"Add your records here"}
+                    <h6>{"Add your book detail(s) here"}
                     </h6>
 
 
@@ -294,7 +294,7 @@ impl InsertRecord {
                 <div class="window-index" id="create-index"> 
 
                     <div class="top-row-index-window-insert">
-                        <h1>{"INSERT RECORD SUCCESSFUL"}</h1>
+                        <h1>{"INSERT BOOK DETAIL(S) SUCCESSFUL"}</h1>
                     </div> 
 
                     <button 
@@ -316,7 +316,7 @@ impl InsertRecord {
                 <div class="window-index" id="create-index"> 
 
                     <button disabled=true class="window-delete-warning-main" >
-                        {"INSERT RECORD FAILED!"}
+                        {"INSERT BOOK DETAIL(S) FAILED!"}
                     </button> 
 
                     <button 

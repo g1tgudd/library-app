@@ -197,7 +197,7 @@ impl Component for DeleteApp {
                 <div class="window-index" id="create-index"> 
 
                     <div class="top-row-index-window-insert">
-                        <h1>{"DELETE PROFILE"}{""}</h1>
+                        <h1>{"DELETE USER PROFILE"}{""}</h1>
                         
                         <button 
                             type="button" 
@@ -317,7 +317,7 @@ impl DeleteApp {
                 <div class="window-index" id="create-index"> 
 
                     <div class="top-row-index-window-insert">
-                        <h1>{"DELETE APPLICATION SUCCESSFUL"}</h1>
+                        <h1>{"DELETE USER PROFILE SUCCESSFUL"}</h1>
                     </div> 
 
                     <button 

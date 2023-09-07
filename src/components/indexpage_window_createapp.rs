@@ -148,7 +148,7 @@ impl Component for AppCreate {
                 <div class="window-index" id="create-app"> 
 
                     <div class="top-row-index-window">
-                        <h1>{"CREATE NEW PROFILE"}</h1>
+                        <h1>{"CREATE NEW USER PROFILE"}</h1>
                         
                         <button 
                             type="button" 
@@ -158,7 +158,7 @@ impl Component for AppCreate {
                         </button>
                     </div> 
 
-                    <h5>{"INSERT APPLICATION NAME"}</h5>
+                    <h5>{"INSERT USER PROFILE NAME"}</h5>
 
                     <form class="createindex-text-input" id="submit-createapp">
                         <input 
@@ -166,7 +166,7 @@ impl Component for AppCreate {
                             class="form-control" 
                             id="create-app-text" 
                             aria-describedby="emailHelp"
-                            placeholder="Application name here..."
+                            placeholder="User profile name here..."
                             oninput = self.link.callback(|data: InputData| Msg::InputCreateApp(data.value))/>
             
                     // <div class="window-confirm-button">

@@ -823,7 +823,7 @@ impl Component for IndexPageComp {
                                                             Msg::ToggleUploadRecord(app_id_view4.clone(), index_name_view2.clone()),
                                                         ])
                                                     >
-                                                        { "Upload File" }
+                                                        { "Upload .JSON File" }
                                                     </a>
                                                 </div>
                                             </div>

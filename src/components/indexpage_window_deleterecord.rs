@@ -310,7 +310,7 @@ impl DeleteRecord {
                 <div class="window-index" id="create-index"> 
 
                     <div class="top-row-index-window-insert">
-                        <h1>{"DELETE INDEX SUCCESSFUL"}</h1>
+                        <h1>{"DELETE GENRE SUCCESSFUL"}</h1>
                     </div> 
 
                     <button 

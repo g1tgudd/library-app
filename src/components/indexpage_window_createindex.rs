@@ -171,7 +171,7 @@ impl Component for IndexCreate {
                         </button>
                     </div> 
 
-                    <h5>{"INSERT INDEX NAME"}</h5>
+                    <h5>{"INSERT GENRE NAME"}</h5>
 
                     
                     <form class="createindex-text-input" id="submit-createindex">
@@ -181,7 +181,7 @@ impl Component for IndexCreate {
                             class="form-control" 
                             id="create-index-text" 
                             aria-describedby="emailHelp"
-                            placeholder="Index name here..."
+                            placeholder="Genre name here..."
                             oninput = self.link.callback(|data: InputData| Msg::InputCreateIndex(data.value))
                             />
                         // <div class="window-confirm-button">
@@ -246,7 +246,7 @@ impl IndexCreate {
                 <div class="window-index" id="create-index"> 
 
                     <div class="top-row-index-window-insert">
-                        <h1>{"CREATE INDEX SUCCESSFUL"}</h1>
+                        <h1>{"CREATE GENRE SUCCESSFUL"}</h1>
                     </div> 
 
                     <button 

@@ -190,7 +190,7 @@ impl Component for UploadRecord {
                 <div class="window-index" id="create-index"> 
 
                     <div class="top-row-index-window-insert">
-                        <h1>{"UPLOAD RECORDS FILE TO INDEX "}{self.props.card_index.clone().replace("\"", "")}</h1>
+                        <h1>{"UPLOAD BOOK DETAIL(S) FILE TO GENRE "}{self.props.card_index.clone().replace("\"", "")}</h1>
                         
                         <button 
                             type="button" 
@@ -223,7 +223,7 @@ impl Component for UploadRecord {
                                 />
                         </div>
 
-                        <h6>{"Uploading a file will add records to this index; it will not erase previous records."}</h6>
+                        <h6>{"Uploading a file will add book detail(s) to this genre; it will not erase previous book detail(s)."}</h6>
                     </div>
                     
 
@@ -263,7 +263,7 @@ impl Component for UploadRecord {
                     //     Msg::RequestCreateRecordsData,
                     // ])
                     >
-                    { "UPLOAD RECORDS FILE" }
+                    { "UPLOAD BOOK DETAIL(S) FILE" }
                     </button>
 
                 // {
